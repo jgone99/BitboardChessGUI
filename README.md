@@ -20,7 +20,6 @@ It includes a **graphical user interface (GUI)** that supports:
 - Piece selection and highlighting of legal moves  
 - Move execution with real-time board updates  
 - Game state management (turns, captures, etc.)  
-- Optional move history navigation (undo/redo or click to restore past states)
 
 ---
 
