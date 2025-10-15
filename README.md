@@ -5,7 +5,11 @@
 </p>
 
 ---
-
+<style>
+  img {
+    scale: 0.5;
+  }
+</style>
 <p align="center">
   <img width="802" height="832" alt="Screenshot 2025-10-15 170645" src="https://github.com/user-attachments/assets/b1f61f6c-42ea-4296-88a9-e9edf4a96848" />
   <img width="802" height="832" alt="Screenshot 2025-10-15 172432" src="https://github.com/user-attachments/assets/4743f97f-3801-4897-9762-5f2371c2cfe0" />
