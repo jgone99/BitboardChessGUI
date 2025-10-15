@@ -34,3 +34,16 @@ It includes a **graphical user interface (GUI)** that supports:
 | **Game Logic** | Handles turn switching, captures, check detection, and special moves |
 | **Scalable Design** | Modular classes for easy AI integration later |
 
+---
+
+## 🔮 Future Features
+
+The following features are planned for future development:
+
+| Feature | Description |
+|---------|-------------|
+| **En Passant** | Full support for en passant captures, including proper move generation and legality checks. |
+| **Castling** | King-side and queen-side castling with move legality enforcement (including checks for squares under attack). |
+| **Promotion Options** | Visual and logical handling of pawn promotion with choice of piece. |
+| **Move History Navigation** | Undo/redo moves and click-to-restore previous positions in the GUI. |
+| **AI Opponent** | Optional AI opponent using bitboard move evaluation for single-player mode. |
