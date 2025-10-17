@@ -344,11 +344,12 @@ void ChessGame::test_move(Move& move, Position& position)
 	position.pieces[color_to_move][move.piece_type] ^= from_to_bb;
 
     if (move.is_castling)
-        position.pieces[color_to_move][ROOK] ^= (to_bb > from_bb ? (1ULL << ROOKS_KINGSIDE[color_to_move]) : (1ULL << ROOKS_QUEENSIDE[color_to_move])) | (to_bb > from_bb ? from_bb << 1 : from_bb >> 1);
+        position.pieces[color_to_move][ROOK] ^= (to_bb > from_bb ? (Bitboard(0B101) << (ROOKS_KINGSIDE[color_to_move] - 2) ) : (Bitboard(0B1001) << (ROOKS_QUEENSIDE[color_to_move])));
     else if (move.captured_type != -1)
-		position.pieces[color_to_move ^ 1][move.captured_type] ^= to_bb;
+        position.pieces[color_to_move ^ 1][move.captured_type] &= ~to_bb;
 
     update_castle_rights(position, move);
+
 	update_occupancies(position);
 
     position.color_to_move = Color(color_to_move ^ 1);
