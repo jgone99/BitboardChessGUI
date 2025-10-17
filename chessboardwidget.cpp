@@ -11,18 +11,18 @@ ChessBoardWidget::ChessBoardWidget(QWidget *parent)
 
 void ChessBoardWidget::loadPieceSprites()
 {
-    piece_pixmaps[white][nPawn]   = QPixmap(":/assets/white_pawn.png");
-    piece_pixmaps[black][nPawn]   = QPixmap(":/assets/black_pawn.png");
-    piece_pixmaps[white][nRook]   = QPixmap(":/assets/white_rook.png");
-    piece_pixmaps[black][nRook]   = QPixmap(":/assets/black_rook.png");
-    piece_pixmaps[white][nKnight] = QPixmap(":/assets/white_knight.png");
-    piece_pixmaps[black][nKnight] = QPixmap(":/assets/black_knight.png");
-    piece_pixmaps[white][nBishop] = QPixmap(":/assets/white_bishop.png");
-    piece_pixmaps[black][nBishop] = QPixmap(":/assets/black_bishop.png");
-    piece_pixmaps[white][nQueen]  = QPixmap(":/assets/white_queen.png");
-    piece_pixmaps[black][nQueen]  = QPixmap(":/assets/black_queen.png");
-    piece_pixmaps[white][nKing]   = QPixmap(":/assets/white_king.png");
-    piece_pixmaps[black][nKing]   = QPixmap(":/assets/black_king.png");
+    piece_pixmaps[WHITE][PAWN]   = QPixmap(":/assets/white_pawn.png");
+    piece_pixmaps[BLACK][PAWN]   = QPixmap(":/assets/black_pawn.png");
+    piece_pixmaps[WHITE][ROOK]   = QPixmap(":/assets/white_rook.png");
+    piece_pixmaps[BLACK][ROOK]   = QPixmap(":/assets/black_rook.png");
+    piece_pixmaps[WHITE][KNIGHT] = QPixmap(":/assets/white_knight.png");
+    piece_pixmaps[BLACK][KNIGHT] = QPixmap(":/assets/black_knight.png");
+    piece_pixmaps[WHITE][BISHOP] = QPixmap(":/assets/white_bishop.png");
+    piece_pixmaps[BLACK][BISHOP] = QPixmap(":/assets/black_bishop.png");
+    piece_pixmaps[WHITE][QUEEN]  = QPixmap(":/assets/white_queen.png");
+    piece_pixmaps[BLACK][QUEEN]  = QPixmap(":/assets/black_queen.png");
+    piece_pixmaps[WHITE][KING]   = QPixmap(":/assets/white_king.png");
+    piece_pixmaps[BLACK][KING]   = QPixmap(":/assets/black_king.png");
 }
 
 void ChessBoardWidget::paintEvent(QPaintEvent *event)
@@ -50,7 +50,7 @@ void ChessBoardWidget::paintEvent(QPaintEvent *event)
     {
         for (int type = 0; type < 6; ++type)
         {
-            U64 bb = chess_game->current_position.pieces[color][type];
+            Bitboard bb = chess_game->current_position.pieces[color][type];
 
             while (bb)
             {
@@ -127,10 +127,10 @@ void ChessBoardWidget::mousePressEvent(QMouseEvent* event)
 
     if (selected_square == -1) {
         // First click: select a square if it has a piece of the current turn
-        if (chess_game->is_valid_square(enumSquare(bb_index)))
+        if (chess_game->is_valid_square(Square(bb_index)))
         {
             selected_square = index;
-            chess_game->legal_moves(enumSquare(bb_index));
+            chess_game->legal_moves(Square(bb_index));
             moves = chess_game->legal_moves_list;
         }
     } else {
@@ -145,9 +145,9 @@ void ChessBoardWidget::mousePressEvent(QMouseEvent* event)
                 chess_game->make_move(*it);
                 selected_square = -1;
             }
-            else if (chess_game->is_friendly_square(enumSquare(to))) {
+            else if (chess_game->is_friendly_square(Square(to))) {
                 selected_square = index;
-                chess_game->legal_moves(enumSquare(to));
+                chess_game->legal_moves(Square(to));
                 moves = chess_game->legal_moves_list;
             }
             else
