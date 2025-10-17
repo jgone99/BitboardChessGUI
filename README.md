@@ -31,7 +31,7 @@ It includes a **graphical user interface (GUI)** that supports:
 
 | Category | Description |
 |-----------|--------------|
-| **Bitboard Engine** | Fast internal board representation using 64-bit integers |
+| **Bitboard Engine** | Fast internal board representation using 64-bit integers (Bitboards) |
 | **Move Generation** | Pseudo-legal and legal move computation with checks |
 | **Castling** | King-side and queen-side castling with move legality enforcement (including checks for squares under attack). |
 | **Qt GUI** | Smooth and interactive board rendering with scaling and highlights |
