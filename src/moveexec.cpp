@@ -1,7 +1,5 @@
 #include "moveexec.h"
 #include "movegen.h"
-#include <iostream>
-#include "consoleui.h"
 
 void update_game_state(Position& position)
 {
