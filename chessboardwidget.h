@@ -19,7 +19,7 @@ protected:
 
 private:
     ChessGame* chess_game = nullptr;
-    std::vector<ChessGame::Move> moves;
+    std::vector<Move> moves;
     int selected_square = -1;
     QPixmap piece_pixmaps[2][6];
 

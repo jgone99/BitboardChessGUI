@@ -25,8 +25,16 @@ set(PROJECT_SOURCES
 )
 
 set(SRC_FILES
-        src/ChessGame.cpp
-        src/ChessGame.h
+    src/chessgame.cpp
+    src/chessgame.h
+    src/bitboard.h
+    src/bitboard.cpp
+    src/position.cpp
+    src/position.h
+    src/movegen.cpp
+    src/movegen.h
+    src/moveexec.h
+    src/moveexec.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -35,6 +43,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ${PROJECT_SOURCES}
         ${SRC_FILES}
         resources.qrc
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET BitboardChessGUI APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

@@ -106,7 +106,7 @@ void ChessBoardWidget::paintEvent(QPaintEvent *event)
         painter.drawRect(selCol*square_size, selRow*square_size, square_size, square_size);
 
         painter.setPen(QPen(Qt::blue, 3));
-        for (ChessGame::Move move: moves)
+        for (Move move: moves)
         {
             int gui_index = gui_to_bitboard_toggle(move.to);
             int col = gui_index % 8;
@@ -130,8 +130,7 @@ void ChessBoardWidget::mousePressEvent(QMouseEvent* event)
         if (chess_game->is_valid_square(Square(bb_index)))
         {
             selected_square = index;
-            chess_game->legal_moves(Square(bb_index));
-            moves = chess_game->legal_moves_list;
+            chess_game->legal_moves(Square(bb_index), &moves);
         }
     } else {
         // Second click: attempt move
@@ -139,7 +138,7 @@ void ChessBoardWidget::mousePressEvent(QMouseEvent* event)
         int to = bb_index;
 
         if (from != to) {
-            std::vector<ChessGame::Move>::iterator it = find_if(moves.begin(), moves.end(), [from, to](ChessGame::Move m) { return m.from == from && m.to == to; });
+            std::vector<Move>::iterator it = find_if(moves.begin(), moves.end(), [from, to](Move m) { return m.from == from && m.to == to; });
             if (it != moves.end())
             {
                 chess_game->make_move(*it);
@@ -147,8 +146,7 @@ void ChessBoardWidget::mousePressEvent(QMouseEvent* event)
             }
             else if (chess_game->is_friendly_square(Square(to))) {
                 selected_square = index;
-                chess_game->legal_moves(Square(to));
-                moves = chess_game->legal_moves_list;
+                chess_game->legal_moves(Square(to), &moves);
             }
             else
             {
