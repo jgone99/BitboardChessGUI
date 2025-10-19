@@ -35,7 +35,7 @@ It includes a **graphical user interface (GUI)** that supports:
 | **Move Generation** | Pseudo-legal and legal move computation with checks |
 | **Castling** | King-side and queen-side castling with move legality enforcement (including checks for squares under attack). |
 | **Qt GUI** | Smooth and interactive board rendering with scaling and highlights |
-| **Game Logic** | Handles turn switching, captures, check detection, and special moves |
+| **Game Logic** | Handles turn switching, captures, check detection, checkmate detection, and special moves |
 | **Scalable Design** | Modular function-based files for easy AI integration later |
 
 ---
