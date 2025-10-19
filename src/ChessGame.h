@@ -19,28 +19,5 @@ public:
     void legal_moves(Square square, std::vector<Move>* legal_moves_list = nullptr);
     void make_move(const Move& move);
     bool is_friendly_square(Square square);
-
-	// Magic Bitnboard implementation (WIP)
-	
-	//static void init_magics(bool is_rook, U64 piece_table[], Magic magics[]);
-	//struct Magic
-	//{
-	//	U64* attacks;
-	//	U64 mask;
-	//	U64 magic;
-	//	int shift;
-
-	//	unsigned index(U64 occ)
-	//	{
-	//		return unsigned(((occ & mask) * magic) >> shift);
-	//	}
-	//};
-
-	//U64 rook_table[0x19000];
-	//U64 bishop_table[0x1480];
-
-	//Magic rook_magics[64];
-	//Magic bishop_magics[64];
-
 };
 

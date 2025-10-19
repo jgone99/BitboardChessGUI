@@ -340,3 +340,36 @@ bool is_king_in_check(const Position& position, int attacking_color)
     return is_attacked(position, Square(bit_scan_forward(position.pieces[attacking_color ^ 1][KING])), attacking_color);
 }
 
+/*
+    Magic Bitboard implementation (WIP)
+*/
+
+/*
+void ChessGame::init_magics(bool is_rook, U64 piece_table[], Magic magics[])
+{
+    int size = 0;
+    U64 b = 0;
+    U64 occ[4096];
+    U64 ref[4096];
+    for (int sq = a1; sq <= h8; sq++)
+    {
+        U64 edges_ex = (((fifth_rank | eighth_rank) & ~rank_mask(sq)) | ((a_file | h_file) & ~file_mask(sq)));
+
+        Magic& m = magics[sq];
+        m.mask = (is_rook ? rook_mask_ex(sq) : bishop_mask_ex(sq)) & ~edges_ex;
+        m.shift = 64 - pop_count(m.mask);
+        m.attacks = sq == a1 ? piece_table : magics[sq - 1].attacks + size;
+
+        b = size = 0;
+
+        do
+        {
+            occ[size] = b;
+            ref[size] = is_rook ? rook_attack(sq, b) : bishop_attack(sq, b);
+            size++;
+            b = (b - m.mask) & m.mask;
+        } while (b);
+    }
+}
+*/
+
