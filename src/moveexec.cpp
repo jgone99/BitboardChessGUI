@@ -1,17 +1,72 @@
 #include "moveexec.h"
 #include "movegen.h"
+#include <iostream>
+#include "consoleui.h"
 
 void update_game_state(Position& position)
 {
     Color color_to_move = position.color_to_move;
     Square king_square = Square(bit_scan_forward(position.pieces[color_to_move][KING]));
     Bitboard attacking_pieces = attacked_by(position, Square(bit_scan_forward(position.pieces[color_to_move][KING])), color_to_move ^ 1);
-    Bitboard k_moves = king_moves(position, king_square, color_to_move);
+    
+    if (!attacking_pieces)
+    {
+        position.state = NORMAL;
+		return;
+    }
 
-    if (attacking_pieces && (attacking_pieces & (attacking_pieces - 1)) && !k_moves)
+    if (legal_moves(position, king_square, nullptr))
+    {
+        position.state = CHECK;
+		return;
+    }
+
+    
+    if (attacking_pieces & (attacking_pieces - 1))
     {
         position.state = CHECKMATE;
+		return;
     }
+
+	int attacker_square = bit_scan_forward(attacking_pieces);
+
+    if (attacking_pieces & position.pieces[color_to_move ^ 1][KNIGHT])
+    {
+		Bitboard defenders = attacked_by(position, Square(attacker_square), color_to_move);
+
+        while (defenders)
+        {
+            Square defender_square = Square(bit_scan_forward(defenders));
+            Bitboard defend_moves = legal_moves(position, defender_square, nullptr);
+            if (defend_moves & attacking_pieces)
+            {
+                position.state = CHECK;
+                return;
+            }
+			defenders &= defenders - 1;
+        }
+
+		position.state = CHECKMATE;
+		return;
+    }
+
+    Bitboard ray = 0ULL;
+    for (int dir = NORTHWEST; dir <= WEST && !(ray & attacking_pieces); ++dir)
+        ray = get_ray_attacks(position.all_occupancy, Direction(dir), king_square);
+        
+    Square intercept_square;
+    while (ray)
+    {
+        intercept_square = Square(bit_scan_forward(ray));
+        if (attacked_by(position, intercept_square, color_to_move) & ~(position.pieces[color_to_move][PAWN] | position.pieces[color_to_move][KING]))
+        {
+            position.state = CHECK;
+            return;
+		}
+        ray &= ray - 1;
+    }
+
+	position.state = CHECKMATE;
 }
 
 void test_move(Move& move, Position& position)

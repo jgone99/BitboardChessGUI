@@ -138,7 +138,7 @@ void ChessBoardWidget::mousePressEvent(QMouseEvent* event)
         int to = bb_index;
 
         if (from != to) {
-            std::vector<Move>::iterator it = find_if(moves.begin(), moves.end(), [from, to](Move m) { return m.from == from && m.to == to; });
+            std::vector<Move>::iterator it = find_if(moves.begin(), moves.end(), [from, to](const Move& m) { return m.from == from && m.to == to; });
             if (it != moves.end())
             {
                 chess_game->make_move(*it);

@@ -5,14 +5,14 @@
 #include <vector>
 
 enum Direction {
-    NORTH		= 0,
-    NORTHEAST	= 1,
-    EAST		= 2,
-    SOUTHEAST	= 3,
-    SOUTH		= 4,
-    SOUTHWEST	= 5,
-    WEST		= 6,
-    NORTHWEST	= 7
+    NORTHWEST = 0,
+    NORTH		= 1,
+    NORTHEAST	= 2,
+    EAST		= 3,
+    SOUTHEAST	= 4,
+    SOUTH		= 5,
+    SOUTHWEST	= 6,
+    WEST		= 7,
 };
 
 // For initial pre-computation of ray_attacks
@@ -34,8 +34,12 @@ inline Bitboard south_west_one(Bitboard bitboard) { return south_west_shift(bitb
 inline Bitboard west_one(Bitboard bitboard) { return west_shift(bitboard, 1) & ~H_FILE; }
 inline Bitboard north_west_one(Bitboard bitboard) { return north_west_shift(bitboard, 1) & ~H_FILE; }
 
-Bitboard get_positive_ray_attacks(Bitboard occupied, Direction dir, Square square);
-Bitboard get_negative_ray_attacks(Bitboard occupied, Direction dir, Square square);
+inline bool is_file_attack(Square square, Bitboard attack) { return attack & (ray_attacks[NORTH][square] | ray_attacks[SOUTH][square]); }
+inline bool is_rank_attack(Square square, Bitboard attack) { return attack & (ray_attacks[EAST][square] | ray_attacks[WEST][square]); }
+inline bool is_diag_attack(Square square, Bitboard attack) { return attack & (ray_attacks[NORTHEAST][square] | ray_attacks[SOUTHWEST][square]); }
+inline bool is_antidiag_attack(Square square, Bitboard attack) { return attack & (ray_attacks[SOUTHEAST][square] | ray_attacks[NORTHWEST][square]); }
+
+Bitboard get_ray_attacks(Bitboard occupied, Direction dir, Square square);
 Bitboard diagonal_attacks(Bitboard occupied, Square square);
 Bitboard anti_diagonal_attacks(Bitboard occupancy, Square square);
 Bitboard single_push(Bitboard pawns, Bitboard empty, int color);

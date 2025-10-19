@@ -16,7 +16,7 @@ public:
 
     PieceType get_type(int square, int color);
     bool is_valid_square(int square);
-    void legal_moves(Square square, std::vector<Move>* legal_moves_list = nullptr);
+    Bitboard legal_moves(Square square, std::vector<Move>* legal_moves_list = nullptr);
     void make_move(const Move& move);
     bool is_friendly_square(Square square);
 };

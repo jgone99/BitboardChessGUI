@@ -26,9 +26,9 @@ bool ChessGame::is_valid_square(int square)
     return ::is_valid_square(current_position, Square(square));
 }
 
-void ChessGame::legal_moves(Square square, std::vector<Move> *legal_moves_list)
+Bitboard ChessGame::legal_moves(Square square, std::vector<Move> *legal_moves_list)
 {
-    ::legal_moves(current_position, square, legal_moves_list);
+    return ::legal_moves(current_position, square, legal_moves_list);
 }
 
 void ChessGame::make_move(const Move &move)

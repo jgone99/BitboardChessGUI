@@ -4,6 +4,7 @@
 
 const int DIRECTION_OFFSETS[8][2]
 {
+    { -1, 1},
     { 0, 1 },
     { 1, 1 },
     { 1, 0 },
@@ -11,7 +12,6 @@ const int DIRECTION_OFFSETS[8][2]
     { 0, -1},
     { -1, -1 },
     { -1, 0 },
-    { -1, 1}
 };
 
 Bitboard ray_attacks[8][64];
@@ -46,25 +46,13 @@ Bitboard pawn_attacks(Bitboard squares, int color)
     return color == BLACK ? south_east_one(squares) | south_west_one(squares) : north_east_one(squares) | north_west_one(squares);
 }
 
-Bitboard get_positive_ray_attacks(Bitboard occupied, Direction dir, Square square)
+Bitboard get_ray_attacks(Bitboard occupied, Direction dir, Square square)
 {
     Bitboard attacks = ray_attacks[dir][square];
     Bitboard blockers = attacks & occupied;
     if (blockers)
     {
-        square = (Square)bit_scan_forward(blockers);
-        attacks ^= ray_attacks[dir][square];
-    }
-    return attacks;
-}
-
-Bitboard get_negative_ray_attacks(Bitboard occupied, Direction dir, Square square)
-{
-    Bitboard attacks = ray_attacks[dir][square];
-    Bitboard blockers = attacks & occupied;
-    if (blockers)
-    {
-        square = (Square)bit_scan_reverse(blockers);
+        square = Square(dir < 4 ? bit_scan_forward(blockers) : bit_scan_reverse(blockers));
         attacks ^= ray_attacks[dir][square];
     }
     return attacks;
@@ -72,22 +60,22 @@ Bitboard get_negative_ray_attacks(Bitboard occupied, Direction dir, Square squar
 
 Bitboard diagonal_attacks(Bitboard occupancy, Square square)
 {
-    return get_positive_ray_attacks(occupancy, NORTHEAST, square) | get_negative_ray_attacks(occupancy, SOUTHWEST, square);
+    return get_ray_attacks(occupancy, NORTHEAST, square) | get_ray_attacks(occupancy, SOUTHWEST, square);
 }
 
 Bitboard anti_diagonal_attacks(Bitboard occupancy, Square square)
 {
-    return get_positive_ray_attacks(occupancy, NORTHWEST, square) | get_negative_ray_attacks(occupancy, SOUTHEAST, square);
+    return get_ray_attacks(occupancy, NORTHWEST, square) | get_ray_attacks(occupancy, SOUTHEAST, square);
 }
 
 Bitboard file_attacks(Bitboard occupancy, Square square)
 {
-    return get_positive_ray_attacks(occupancy, NORTH, square) | get_negative_ray_attacks(occupancy, SOUTH, square);
+    return get_ray_attacks(occupancy, NORTH, square) | get_ray_attacks(occupancy, SOUTH, square);
 }
 
 Bitboard rank_attacks(Bitboard occupancy, Square square)
 {
-    return get_positive_ray_attacks(occupancy, EAST, square) | get_negative_ray_attacks(occupancy, WEST, square);
+    return get_ray_attacks(occupancy, EAST, square) | get_ray_attacks(occupancy, WEST, square);
 }
 
 Bitboard rook_attacks(Bitboard occupancy, Square square)
