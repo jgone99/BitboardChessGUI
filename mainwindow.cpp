@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     QVBoxLayout* layout = new QVBoxLayout(central);
 
-    setFixedSize(800, 800);
+    setFixedSize(820, 820);
 
     chess_board_widget = new ChessBoardWidget(this);
     chess_game = new ChessGame();

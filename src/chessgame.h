@@ -19,5 +19,11 @@ public:
     Bitboard legal_moves(Square square, std::vector<Move>* legal_moves_list = nullptr);
     void make_move(const Move& move);
     bool is_friendly_square(Square square);
+    void previous_position();
+    void next_position();
+
+private:
+    int position_index;
+    int position_history_size;
 };
 

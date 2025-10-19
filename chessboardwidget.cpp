@@ -6,6 +6,7 @@
 ChessBoardWidget::ChessBoardWidget(QWidget *parent)
     : QWidget{parent}
 {
+    setFocusPolicy(Qt::StrongFocus);
     loadPieceSprites();
 }
 
@@ -30,7 +31,7 @@ void ChessBoardWidget::paintEvent(QPaintEvent *event)
     QPainter painter(this);
 
     int square_size = std::min(width(), height()) / 8;
-    int padding = square_size * 0.1;
+    int padding = square_size * 0.15;
     int piece_size = square_size - 2 * padding;
     int offset = (square_size - piece_size) / 2;
 
@@ -43,6 +44,23 @@ void ChessBoardWidget::paintEvent(QPaintEvent *event)
             QColor color = light ? QColor(240, 217, 181) : QColor(181, 136, 99);
             painter.fillRect(file * square_size, rank * square_size, square_size, square_size, color);
         }
+    }
+
+    QFont font = painter.font();
+    font.setPointSize(15);
+    font.setBold(true);
+    painter.setFont(font);
+
+    for (int file = 0; file < 8; ++file)
+    {
+        painter.setPen(file % 2 ? Qt::black : Qt::white);
+        painter.drawText((file + 1) * square_size - square_size * 0.15, 8 * square_size - square_size * 0.05, QString(FILES[file]));
+    }
+
+    for (int rank = 0; rank < 8; ++rank)
+    {
+        painter.setPen(rank % 2 ? Qt::black : Qt::white);
+        painter.drawText(0 + square_size * 0.05, 7 * square_size - rank * square_size + square_size * 0.2, QString(RANKS[rank]));
     }
 
     // 2. Draw pieces using bitboards
@@ -66,37 +84,6 @@ void ChessBoardWidget::paintEvent(QPaintEvent *event)
             }
         }
     }
-
-    // // Draw squares
-    // for (int row = 0; row < 8; ++row) {
-    //     for (int col = 0; col < 8; ++col) {
-    //         int idx = row * 8 + col;
-    //         bool light = (row + col) % 2 == 0;
-    //         painter.setPen(Qt::NoPen);
-    //         painter.setBrush(light ? QColor(240, 217, 181) : QColor(181, 136, 99));
-    //         painter.drawRect(col * square_size, row * square_size, square_size, square_size);
-
-    //         // Get piece from your board logic
-    //         const Piece* piece = board->getSquare(row * 8 + col)->piece;
-    //         QString type;
-
-    //         if (piece) {
-    //             switch (piece->type) {
-    //                 case Piece::PieceType::KING: type = "K"; break;
-    //                 case Piece::PieceType::QUEEN: type = "Q"; break;
-    //                 case Piece::PieceType::ROOK: type = "R"; break;
-    //                 case Piece::PieceType::BISHOP: type = "B"; break;
-    //                 case Piece::PieceType::KNIGHT: type = "N"; break;
-    //                 case Piece::PieceType::PAWN: type = "P"; break;
-    //                 default: type = ""; break;
-    //             }
-
-    //             QString key = QString("%1_%2")
-    //             .arg(type).arg(piece->isWhite ? "white" : "black");
-    //             painter.drawPixmap(col * square_size + offset, row * square_size + offset, piece_size, piece_size, pieceSprites[key.toStdString()]);
-    //         }
-    //     }
-    // }
 
     if (selected_square != -1) {
         int selRow = selected_square / 8;
@@ -156,6 +143,32 @@ void ChessBoardWidget::mousePressEvent(QMouseEvent* event)
     }
 
     update();
+}
+
+void ChessBoardWidget::keyPressEvent(QKeyEvent *event)
+{
+    moves.clear();
+    int key_code = event->key();
+
+    if (event->type() == QEvent::KeyPress)
+    {
+        switch (key_code) {
+        case Qt::Key::Key_Left:
+            chess_game->previous_position();
+            event->accept();
+            break;
+        case Qt::Key::Key_Right:
+            chess_game->next_position();
+            event->accept();
+            break;
+        default:
+
+            break;
+        }
+        update();
+    }
+
+    QWidget::keyPressEvent(event);
 }
 
 inline int ChessBoardWidget::gui_to_bitboard_toggle(int index)

@@ -5,8 +5,13 @@
 
 ChessGame::ChessGame(Position position)
 {
-	current_position = position;
-	position_history_3fold[pos_stringid(position)] = 1;
+    current_position = position;
+
+    position_index = 0;
+    position_history.push_back(current_position);
+    position_history_size = 1;
+
+    position_history_3fold[pos_stringid(position)] = 1;
 	init_rays();
 	update_occupancies(position);
 }
@@ -34,9 +39,26 @@ Bitboard ChessGame::legal_moves(Square square, std::vector<Move> *legal_moves_li
 void ChessGame::make_move(const Move &move)
 {
     ::make_move(move, current_position);
+    position_history_size = ++position_index;
+    if (position_history.size() > position_history_size)
+        position_history[position_history_size] = current_position;
+    else
+        position_history.push_back(current_position);
 }
 
 bool ChessGame::is_friendly_square(Square square)
 {
     return ::is_friendly_square(current_position, square);
+}
+
+void ChessGame::previous_position()
+{
+    position_index = std::max(0, position_index - 1);
+    current_position = position_history[position_index];
+}
+
+void ChessGame::next_position()
+{
+    position_index = std::min(position_history_size, position_index + 1);
+    current_position = position_history[position_index];
 }
