@@ -36,6 +36,7 @@ It includes a **graphical user interface (GUI)** that supports:
 | **Castling** | King-side and queen-side castling with move legality enforcement (including checks for squares under attack). |
 | **Qt GUI** | Smooth and interactive board rendering with scaling and highlights |
 | **Game Logic** | Handles turn switching, captures, check detection, checkmate detection, and special moves |
+| **Linear Move History Navigation** | Undo/redo consecutive moves allowing positions restoration in the GUI. |
 | **Scalable Design** | Modular function-based files for easy AI integration later |
 
 ---
@@ -48,5 +49,5 @@ The following features are planned for future development:
 |---------|-------------|
 | **En Passant** | Full support for en passant captures, including proper move generation and legality checks. |
 | **Promotion Options** | Visual and logical handling of pawn promotion with choice of piece. |
-| **Move History Navigation** | Undo/redo moves and click-to-restore previous positions in the GUI. |
-| **AI Opponent** | Optional AI opponent using bitboard move evaluation for single-player mode. |
+| **Click-To-Restore Move History** | A click-to-restore previous positions dialog. |
+| **AI Opponent (maybe)** | Optional AI opponent using bitboard move evaluation for single-player mode. |
